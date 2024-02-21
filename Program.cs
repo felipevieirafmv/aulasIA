@@ -3,7 +3,7 @@ using AIContinuous;
 
 double MyFunction(double x)
 {
-    return (Math.Sqrt(Math.Abs(x)) - 5.0) * x + 10.0;
+    return Math.Pow((x - 1), 2) + Math.Sin(Math.Pow(x, 3));
 }
 
 // double MyDer(double x)
@@ -27,5 +27,5 @@ var sol = 0.0;
 // Console.WriteLine($"{sol} | {(DateTime.Now - date).TotalMilliseconds}");
 
 date = DateTime.Now;
-sol = Optimize.Newton(MyFunction, -0.01);
+sol = Global.FindMinimum(MyFunction, 10);
 Console.WriteLine($"{sol} | {(DateTime.Now - date).TotalMilliseconds}");
