@@ -55,7 +55,7 @@ public static class Root
         Func<double, double> function,
         Func<double, double> der,
         double x0,
-        double atol = 1e-6,
+        double atol = 1e-4,
         int maxIter = 10000 )
     {
         double xp = x0;
