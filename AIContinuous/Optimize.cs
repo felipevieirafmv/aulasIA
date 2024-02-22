@@ -13,7 +13,7 @@ public static class Optimize
         int maxIter = 10000)
     {
         Func<double, double> diffFunction =
-            x => Diff.Differentiate(function, x, h);
+            x => Diff.Differentiate(function, x, 2.0 * h);
 
         Func<double, double> diffSecondFunction =
             x => Diff.Differentiate(diffFunction, x, h);

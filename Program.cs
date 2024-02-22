@@ -1,9 +1,17 @@
 ﻿using System;
 using AIContinuous;
 
-double MyFunction(double x)
+double MyFunction(double[] x)
 {
-    return Math.Pow((x - 1), 2) + Math.Sin(Math.Pow(x, 3));
+    // return x[0] * x[0] + x[1] * x[1];
+    // return Math.Pow((x[0] + x[1] * 2 - 7), 2) + Math.Pow((x[0] * 2 + x[1] - 5), 2);
+    double value = 0.0;
+    int n = x.Length - 1;
+
+    for(int i = 0; i < n; i++)
+        value += 100.0 * ((x[i + 1] - x[i] * x[i]) * (x[i + 1] - x[i] * x[i])) + ((1 - x[i]) * (1 - x[i]));
+    
+    return value;
 }
 
 // double MyDer(double x)
@@ -12,7 +20,7 @@ double MyFunction(double x)
 // }
 
 var date = DateTime.Now;
-var sol = 0.0;
+double[] sol = new double[2];
 
 // date = DateTime.Now;
 // sol = Root.Bisection(MyFunction, 0, 10);
@@ -26,6 +34,8 @@ var sol = 0.0;
 // sol = Root.Newton(MyFunction, double (double x) => diff.Differentiate(MyFunction, x), 10);
 // Console.WriteLine($"{sol} | {(DateTime.Now - date).TotalMilliseconds}");
 
+double[] initialGuess = new double[]{10.0, 10.0};
+
 date = DateTime.Now;
-sol = Global.FindMinimum(MyFunction, 10);
-Console.WriteLine($"{sol} | {(DateTime.Now - date).TotalMilliseconds}");
+sol = Optimize.GradientDescent(MyFunction, initialGuess, 1e-7, 1e-9);
+Console.WriteLine($"{sol[0]}, {sol[1]} | {(DateTime.Now - date).TotalMilliseconds}");
