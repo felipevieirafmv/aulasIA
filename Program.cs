@@ -12,6 +12,11 @@ double Rosembrock(double[] x)
     return value;
 }
 
+double Restriction(double[] x)
+{
+    return -1.0;
+}
+
 List<double[]> bounds = new()
 {
     new double[] {-10.0, 10.0},
@@ -29,8 +34,8 @@ List<double[]> bounds = new()
 var date = DateTime.Now;
 
 date = DateTime.Now;
-var diffEvolution = new DiffEvolution(Rosembrock, bounds, 1000);
+var diffEvolution = new DiffEvolution(Rosembrock, Restriction, bounds, 200);
 
-var res = diffEvolution.Optimize(100);
+var res = diffEvolution.Optimize(10000);
 
 Console.WriteLine($"{res[0]}, {res[1]} | {(DateTime.Now - date).TotalMilliseconds}");
