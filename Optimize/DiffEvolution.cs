@@ -1,4 +1,6 @@
-namespace AIContinuous;
+using AIContinuous.Utils;
+
+namespace AIContinuous.Optimize;
 
 public class DiffEvolution
 {
@@ -46,7 +48,7 @@ public class DiffEvolution
             Individuals.Add(new double[dimension]);
 
             for(int j = 0; j < dimension; j++)
-                Individuals[i][j] = Utils.Rescale(Random.Shared.NextDouble(), Bounds[j][0], Bounds[j][1]);
+                Individuals[i][j] = Maths.Rescale(Random.Shared.NextDouble(), Bounds[j][0], Bounds[j][1]);
 
             IndividualsRestrictions[i] = Restriction(Individuals[i]);
             IndividualsFitness[i] = IndividualsRestrictions[i] <= 0.0 ? Fitness(Individuals[i]) : double.MaxValue;
@@ -60,16 +62,23 @@ public class DiffEvolution
 
         for(int i = 0; i < NPop; i++)
         {
-            var fitnessCurrent = Fitness(Individuals[i]);
-
-            if(fitnessCurrent < fitnessBest)
+            if(IndividualsFitness[i] < fitnessBest)
             {
                 BestIndividualIndex = i;
-                fitnessBest = fitnessCurrent;
+                fitnessBest = IndividualsFitness[i];
             }
         }
 
         IndividualsFitness[BestIndividualIndex] = fitnessBest;
+    }
+
+    private void EnsureBounds(double[] individual)
+    {
+        for(int i = 0; i < Dimension; i++)
+        {
+            if(individual[i] < Bounds[i][0] || individual[i] > Bounds[i][1])
+                individual[i] = Maths.Rescale(Random.Shared.NextDouble(), Bounds[i][0], Bounds[i][1]);
+        }
     }
 
     private double[] Mutate(int index)
@@ -86,7 +95,7 @@ public class DiffEvolution
         var newIndividual = (double[])Individuals[BestIndividualIndex].Clone();
         for(int i = 0; i < Dimension; i++)
         {
-            newIndividual[i] += Utils.Rescale(Random.Shared.NextDouble(), MutationMin, MutationMax)
+            newIndividual[i] += Maths.Rescale(Random.Shared.NextDouble(), MutationMin, MutationMax)
                                 * (Individuals[individualRand1][i] - Individuals[individualRand2][i]);
         }
 
@@ -103,6 +112,8 @@ public class DiffEvolution
             if(!(Random.Shared.NextDouble() < Recombination) || (i == Random.Shared.Next(Dimension)))
                 trial2[i] = trial[i];
         }
+
+        EnsureBounds(trial2);
 
         return trial2;
     }
@@ -136,7 +147,10 @@ public class DiffEvolution
         GeneratePopulation();
 
         for(int i = 0; i < n; i++)
+        {
+            System.Console.WriteLine($"Generation {i + 1}");
             Iterate();
+        }
 
         return Individuals[BestIndividualIndex];
     }

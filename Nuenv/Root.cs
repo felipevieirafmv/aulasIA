@@ -1,7 +1,4 @@
-using System;
-using System.Security.Cryptography.X509Certificates;
-
-namespace AIContinuous;
+namespace AIContinuous.Nuenv;
 
 public static class Root
 {
@@ -18,7 +15,7 @@ public static class Root
             else
                 b = diff;
                 
-            if(Math.Abs(function(diff)) < atol)
+            if(System.Math.Abs(function(diff)) < atol)
                 break;
         }
 
@@ -44,7 +41,7 @@ public static class Root
             else
                 b = c;
 
-            if(Math.Abs(function(c)) < atol)
+            if(System.Math.Abs(function(c)) < atol)
                 break;
         }
 
@@ -65,7 +62,7 @@ public static class Root
             var fp = function(xp);
             xp -= fp / der(xp);
 
-            if(Math.Abs(fp) < atol)
+            if(System.Math.Abs(fp) < atol)
                 break;
         }
 

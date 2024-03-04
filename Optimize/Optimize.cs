@@ -1,7 +1,6 @@
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.Serialization.Formatters;
+using AIContinuous.Nuenv;
 
-namespace AIContinuous;
+namespace AIContinuous.Optimize;
 
 public static class Optimize
 {
@@ -39,7 +38,7 @@ public static class Optimize
             for(int i = 0; i < dim; i++)
             {
                 xp[i] -= learningRate * diff[i];
-                diffNorm += Math.Abs(diff[i]);
+                diffNorm += System.Math.Abs(diff[i]);
             }
         } while(diffNorm > atol * dim);
 

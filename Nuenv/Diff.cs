@@ -1,4 +1,4 @@
-namespace AIContinuous;
+namespace AIContinuous.Nuenv;
 
 public static class Diff
 {

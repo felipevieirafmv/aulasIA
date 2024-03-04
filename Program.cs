@@ -1,41 +1,50 @@
-﻿using System;
-using AIContinuous;
+using AIDiscrete.Collections;
+using AIDiscrete.Search;
 
-double Rosembrock(double[] x)
+var tree = BuildTree();
+Console.WriteLine(tree);
+return;
+
+Tree<int> BuildTree()
 {
-    double value = 0.0;
-    int n = x.Length - 1;
+    // Tree 1 (root: 50)
+    var node = new TreeNode<int>(6);
+    node = new TreeNode<int>(21, children: new List<TreeNode<int>> { node });
+    var node2 = new TreeNode<int>(45);
+    node = new TreeNode<int>(12, children: new List<TreeNode<int>> { node, node2 });
+    node = new TreeNode<int>(50, children: new List<TreeNode<int>> { node });
 
-    for(int i = 0; i < n; i++)
-        value += 100.0 * ((x[i + 1] - x[i] * x[i]) * (x[i + 1] - x[i] * x[i])) + ((1 - x[i]) * (1 - x[i]));
-    
-    return value;
+    var tree1 = new Tree<int>(node);
+
+    // Tree 2 (root: 1)
+    var root = new TreeNode<int>(1)
+               .AddChild(new TreeNode<int>(70))
+               .AddChild(new TreeNode<int>(61));
+
+    var tree2 = new Tree<int>(root);
+
+    // Tree 3 (root: 30)
+    root = new TreeNode<int>(30)
+           .AddChild(new TreeNode<int>(96))
+           .AddChild(new TreeNode<int>(9));
+
+    var tree3 = new Tree<int>(root);
+
+    // Tree4 (root: 150)
+    root = new TreeNode<int>(150)
+           .AddChild(tree3.Root)
+           .AddChild(new TreeNode<int>(5))
+           .AddChild(new TreeNode<int>(11));
+
+    var tree4 = new Tree<int>(root);
+
+    // Tree 5 (root: 100)
+    root = new TreeNode<int>(100)
+           .AddChild(tree1.Root)
+           .AddChild(tree2.Root)
+           .AddChild(tree4.Root);
+
+    var tree5 = new Tree<int>(root);
+
+    return tree5;
 }
-
-double Restriction(double[] x)
-{
-    return -1.0;
-}
-
-List<double[]> bounds = new()
-{
-    new double[] {-10.0, 10.0},
-    new double[] {-10.0, 10.0},
-    new double[] {-10.0, 10.0},
-    new double[] {-10.0, 10.0},
-    new double[] {-10.0, 10.0},
-    new double[] {-10.0, 10.0},
-    new double[] {-10.0, 10.0},
-    new double[] {-10.0, 10.0},
-    new double[] {-10.0, 10.0},
-    new double[] {-10.0, 10.0}
-};
-
-var date = DateTime.Now;
-
-date = DateTime.Now;
-var diffEvolution = new DiffEvolution(Rosembrock, Restriction, bounds, 200);
-
-var res = diffEvolution.Optimize(10000);
-
-Console.WriteLine($"{res[0]}, {res[1]} | {(DateTime.Now - date).TotalMilliseconds}");
