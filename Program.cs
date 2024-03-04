@@ -1,9 +1,17 @@
-using AIDiscrete.Collections;
 using AIDiscrete.Search;
+using AIDiscrete.Collections;
 
 var tree = BuildTree();
 Console.WriteLine(tree);
+
+var found = Search.DFSearch(tree.Root, 9);
+Console.WriteLine($"Goal found: {found}");
+
+found = Search.BFSearch(tree.Root, 9);
+Console.WriteLine($"Goal found: {found}");
+
 return;
+
 
 Tree<int> BuildTree()
 {

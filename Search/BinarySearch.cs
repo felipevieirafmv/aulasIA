@@ -2,7 +2,7 @@ using System.Reflection.Metadata;
 
 namespace AIDiscrete.Search;
 
-public static class Search
+public static partial class Search
 {
     public static int BinarySearch<T>(List<T> collection, T value, int begin = 0, int end = -1)
     {
