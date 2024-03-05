@@ -1,60 +1,114 @@
-using AIDiscrete.Search;
+﻿using AIDiscrete.Search;
 using AIDiscrete.Collections;
 
-// var tree = BuildTree();
-// Console.WriteLine(tree);
+var graph = BuildGraph();
+var start = graph.Nodes[3];
+var end = graph.Nodes[8];
 
-// var found = Search.DFSearch(tree.Root, 9);
-// Console.WriteLine($"Goal found: {found}");
+Console.WriteLine(start.Value);
+Console.WriteLine(end.Value);
 
-// found = Search.BFSearch(tree.Root, 9);
-// Console.WriteLine($"Goal found: {found}");
+var found = Search.BFSearch(
+    new SearchGraphNode<string>(start),
+    end.Value);
 
-// return;
+Console.WriteLine(found ? "Goal found" : "Goal not found");
 
+return;
 
-// Tree<int> BuildTree()
-// {
-//     // Tree 1 (root: 50)
-//     var node = new TreeNode<int>(6);
-//     node = new TreeNode<int>(21, children: new List<TreeNode<int>> { node });
-//     var node2 = new TreeNode<int>(45);
-//     node = new TreeNode<int>(12, children: new List<TreeNode<int>> { node, node2 });
-//     node = new TreeNode<int>(50, children: new List<TreeNode<int>> { node });
+Graph<string> BuildGraph()
+{
+    var nodeBaltimore = new GraphNode<string>("Baltimore");
+    var nodeBoston = new GraphNode<string>("Boston");
+    var nodeBuffalo = new GraphNode<string>("Buffalo");
+    var nodeChicago = new GraphNode<string>("Chicago");
+    var nodeCleveland = new GraphNode<string>("Cleveland");
+    var nodeColumbus = new GraphNode<string>("Columbus");
+    var nodeDetroit = new GraphNode<string>("Detroit");
+    var nodeIndianapolis = new GraphNode<string>("Indianapolis");
+    var nodeNewYork = new GraphNode<string>("New York");
+    var nodePhiladelphia = new GraphNode<string>("Philadelphia");
+    var nodePittsburgh = new GraphNode<string>("Pittsburgh");
+    var nodePortland = new GraphNode<string>("Portland");
+    var nodeProvidence = new GraphNode<string>("Providence");
+    var nodeSyracuse = new GraphNode<string>("Syracuse");
 
-//     var tree1 = new Tree<int>(node);
+    nodeBaltimore.AddNode(nodePhiladelphia)
+                 .AddNode(nodePittsburgh);
 
-//     // Tree 2 (root: 1)
-//     var root = new TreeNode<int>(1)
-//                .AddChild(new TreeNode<int>(70))
-//                .AddChild(new TreeNode<int>(61));
+    nodeBoston.AddNode(nodeNewYork)
+              .AddNode(nodePortland)
+              .AddNode(nodeProvidence)
+              .AddNode(nodeSyracuse);
 
-//     var tree2 = new Tree<int>(root);
+    nodeBuffalo.AddNode(nodeCleveland)
+               .AddNode(nodeDetroit)
+               .AddNode(nodePittsburgh)
+               .AddNode(nodeSyracuse);
 
-//     // Tree 3 (root: 30)
-//     root = new TreeNode<int>(30)
-//            .AddChild(new TreeNode<int>(96))
-//            .AddChild(new TreeNode<int>(9));
+    nodeChicago.AddNode(nodeCleveland)
+               .AddNode(nodeDetroit)
+               .AddNode(nodeIndianapolis);
 
-//     var tree3 = new Tree<int>(root);
+    nodeCleveland.AddNode(nodeBuffalo)
+                 .AddNode(nodeChicago)
+                 .AddNode(nodeColumbus)
+                 .AddNode(nodeDetroit)
+                 .AddNode(nodePittsburgh);
 
-//     // Tree4 (root: 150)
-//     root = new TreeNode<int>(150)
-//            .AddChild(tree3.Root)
-//            .AddChild(new TreeNode<int>(5))
-//            .AddChild(new TreeNode<int>(11));
+    nodeColumbus.AddNode(nodeCleveland)
+                .AddNode(nodeIndianapolis)
+                .AddNode(nodePittsburgh);
 
-//     var tree4 = new Tree<int>(root);
+    nodeDetroit.AddNode(nodeBuffalo)
+               .AddNode(nodeChicago)
+               .AddNode(nodeCleveland);
 
-//     // Tree 5 (root: 100)
-//     root = new TreeNode<int>(100)
-//            .AddChild(tree1.Root)
-//            .AddChild(tree2.Root)
-//            .AddChild(tree4.Root);
+    nodeIndianapolis.AddNode(nodeChicago)
+                    .AddNode(nodeColumbus);
 
-//     var tree5 = new Tree<int>(root);
+    nodeNewYork.AddNode(nodeBoston)
+               .AddNode(nodePhiladelphia)
+               .AddNode(nodeProvidence)
+               .AddNode(nodeSyracuse);
 
-//     return tree5;
-// }
+    nodePhiladelphia.AddNode(nodeBaltimore)
+                    .AddNode(nodeNewYork)
+                    .AddNode(nodeSyracuse);
 
-var nodePortland = new Node<string>("Portland");
+    nodePittsburgh.AddNode(nodeBaltimore)
+                  .AddNode(nodeBuffalo)
+                  .AddNode(nodeCleveland)
+                  .AddNode(nodeColumbus)
+                  .AddNode(nodePhiladelphia);
+
+    nodePortland.AddNode(nodeBoston);
+
+    nodeProvidence.AddNode(nodeBoston)
+                  .AddNode(nodeNewYork);
+
+    nodeSyracuse.AddNode(nodeBoston)
+                .AddNode(nodeBuffalo)
+                .AddNode(nodeNewYork)
+                .AddNode(nodePhiladelphia);
+
+    var buildGraph = new Graph<string>(new List<GraphNode<string>>
+    {
+        nodeBaltimore,
+        nodeBoston,
+        nodeBuffalo,
+        nodeChicago,
+        nodeCleveland,
+        nodeColumbus,
+        nodeDetroit,
+        nodeIndianapolis,
+        nodeNewYork,
+        nodePhiladelphia,
+        nodePittsburgh,
+        nodePortland,
+        nodeProvidence,
+        nodeSyracuse,
+    });
+
+    return buildGraph;
+}

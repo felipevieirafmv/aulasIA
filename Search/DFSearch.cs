@@ -4,16 +4,19 @@ namespace AIDiscrete.Search;
 
 public static partial class Search
 {
-    //Depth First Search
-    public static bool DFSearch<T>(TreeNode<T> node, T goal)
+    public static bool DFSearch<T, TNode>(SearchNode<T, TNode> node, T goal) where TNode : INode<T>
     {
-        if(EqualityComparer<T>.Default.Equals(node.Value, goal))
-            return true;
-        
-        foreach(var currNode in node.Children)
-            if(DFSearch(currNode, goal))
-                return true;
+        if (node.Visited)
+            return false;
 
-        return false;
+        node.Visited = true;
+
+        if (EqualityComparer<T>.Default.Equals(node.Node.Value, goal))
+        {
+            node.IsSolution = true;
+            return true;
+        }
+
+        return node.Neighbours().Any(neighbour => !neighbour.Visited && DFSearch<T, TNode>(neighbour, goal));
     }
 }

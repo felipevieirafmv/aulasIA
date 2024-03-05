@@ -1,7 +1,11 @@
 namespace AIDiscrete.Collections;
 
-public class Graph<T> : Node<T>
+public class Graph<T>
 {
-    public Graph(T value = default(T), List<Node<T>> neighbours = null!)
-    : base(value, neighbours) { }
+    public List<GraphNode<T>> Nodes { get; set; }
+
+    public Graph(List<GraphNode<T>> nodes = null!)
+    {
+        Nodes = nodes ?? new List<GraphNode<T>>();
+    }
 }

@@ -5,9 +5,10 @@ public class Tree<T>
     public TreeNode<T> Root { get; set; }
     public List <TreeNode<T>> Branches => Root.Children;
 
-    public Tree(TreeNode<T> root) => Root = root;
-
-    public Tree(T value) => Root = new TreeNode<T>(value);
+    public Tree(TreeNode<T> root = null!)
+    {
+        Root = root;
+    }
 
     public Tree<T> AddBranch(TreeNode<T> branch)
     {
